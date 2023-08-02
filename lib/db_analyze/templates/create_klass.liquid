@@ -1,0 +1,11 @@
+{{ "----" }}
+# frozen_string_literal: true
+
+class {{ name -}}
+{% if superclass -%}
+    {{ " < " }}{{ superclass }}
+{% endif -%}
+{% for reflection in reflections -%}
+    {{ reflection["macro"] }} :{{ reflection.name }}
+{% endfor -%}
+end
