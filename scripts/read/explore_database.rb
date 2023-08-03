@@ -22,7 +22,11 @@ module Runner
   DbAnalyze.logger = logger
 
   output = $stdout
-  database = DbAnalyze::Database.new(output: output)
+  opts = {
+    write_tables: "./output/tables",
+    write_klasses: "./output/klasses",
+  }
+  database = DbAnalyze::Database.new(output: output, opts: opts)
   database.render
 
 end

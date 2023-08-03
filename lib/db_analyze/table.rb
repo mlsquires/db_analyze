@@ -14,6 +14,7 @@ module DbAnalyze
     attribute :created
     attribute :klass
     attribute :output
+    attribute :opts
 
     FILTER_FIELDS = %w[name primary_key].freeze
 
@@ -27,6 +28,7 @@ module DbAnalyze
         raise "BOOM"
       end
 
+      self.opts = opts.nil? ? {} : opts
       self.created = created.nil? ? false : created
 
       capture_actual
@@ -85,21 +87,34 @@ module DbAnalyze
       # foreign_key.dump
     end
 
-    def render(opts = {})
+    def render( opts = {} )
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       template = Templates.load_template(:create_table)
       args = {
         "klass" => self.klass.name.pluralize,
-        "name" => self.name.to_sym,
+        "name" => self.name,
         "primary_key_column" => columns[primary_key].filtered,
         "columns" => columns.reject { |key, _value| key == primary_key }.map { |_key, value| value.filtered },
         "indexes" => indexes.map { |_key, value| value.filtered },
       }
-      output.puts template.render(args)
+      fussed_args = args.merge(opts)
+      if opts[:write_tables]
+        file = create_file
+        file.puts template.render(args)
+        file.close
+      else
+        output.puts template.render(args)
+      end
     end
 
-    def find_index_for_column (column_name )
+    def create_file
+      filename = %(#{opts[:write_tables]}/#{name}.rb)
+      puts %(Writing file: #{filename})
+      file = File.open(filename, "w")
+    end
+
+    def find_index_for_column (column_name)
       mls_msg = %(#{self.class.name}.#{__method__}( #{column_name.inspect} ))
       DbAnalyze.logger.debug mls_msg
       candidates = indexes.select { |_key, index| index.columns.include?(column_name) }

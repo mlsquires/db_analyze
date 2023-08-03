@@ -13,6 +13,7 @@ module DbAnalyze
 
     attribute :db_config
     attribute :database_name
+    attribute :opts
     attribute :output
 
     def initialize(args = {}, &block)
@@ -20,6 +21,8 @@ module DbAnalyze
       if block
         yield self
       end
+
+      self.opts = opts.nil? ? {} : opts
       establish_connection
       self.db_config = ::ActiveRecord::Base.connection_db_config
       self.database_name = db_config.database
@@ -73,7 +76,7 @@ config = {
       DbAnalyze.logger.debug mls_msg
       table_names = connection.tables.reject { |t| IGNORE_TABLES.include?(t) }.sort
       table_names.each do |table_name|
-        Mappings.tables[table_name] = Table.new(name: table_name, output: output)
+        Mappings.tables[table_name] = Table.new(name: table_name, output: output, opts: opts)
       end
     end
 
@@ -81,7 +84,7 @@ config = {
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       Mappings.tables.each do |_table_name, table|
-        klass = DbAnalyze::Klass.new(table: table, output: output)
+        klass = DbAnalyze::Klass.new(table: table, output: output, opts: opts)
 
       end
     end
@@ -98,6 +101,9 @@ config = {
     end
 
     def render(opts = {})
+      if opts.empty?
+        opts = self.opts
+      end
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       Mappings.tables.each do |_table_name, table|

@@ -16,6 +16,7 @@ module DbAnalyze
     attribute :table
     attribute :table_name
     attribute :output
+    attribute :opts
 
     FILTER_FIELDS = %w[name created primary_key].freeze
     INTERESTING_FIELDS = {
@@ -52,6 +53,7 @@ module DbAnalyze
         raise "BOOM"
       end
 
+      self.opts = opts.nil? ? {} : opts
       refresh_klass
     end
 
@@ -70,7 +72,20 @@ module DbAnalyze
         "superclass" => self.superclass,
         "reflections" => reflection_objects,
       }
-           output.puts template.render(args)
+      if opts[:write_klasses]
+        file = create_file
+        file.puts template.render(args)
+        file.close
+      else
+        output.puts template.render(args)
+      end
+
+    end
+
+    def create_file
+      filename = %(#{opts[:write_klasses]}/create_klass_#{name}.rb)
+      puts %(Writing file: #{filename})
+      file = File.open(filename, "w")
     end
 
     def dump(opts = {})

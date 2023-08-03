@@ -1,23 +1,21 @@
-{{ "----" }}
-# frozen_string_literal: true
-{{ "" }}
 class Create{{ klass }} < ActiveRecord::Migration[7.0]
   def change
-    create_table :{{ name -}}
+    create_table "{{ name -}}" {{  -}}
 {% unless primary_key_column.type == "integer" -%}
 , {{ primary_key_column.name }}: :{{ primary_key_column.type -}}
 {% if primary_key_column.default -%}
     , default:  {{ primary_key_column.default -}}
 {% endif -%}
+   {{ ", force: :cascade " -}}
 {% endunless -%}
       {{ " do |t|" }}
         {% for column in columns -%}
-        t.{{ column.type }} :{{ column.name -}}
-    {% if column.null == true -%}
+        t.{{ column.type }} "{{ column.name -}}" {{  -}}
+            {% if column.default -%}
+                , default:  {{ column.default -}}
+            {% endif -%}
+    {% if column.null == false -%}
         , null: {{ column.null -}}
-    {% endif -%}
-    {% if column.default -%}
-        , default:  {{ column.default -}}
     {% endif -%}
     {% if column.index -%}
         {% if column.index.unique -%}
