@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "db_analyze/utils"
+require "db_analyze/config"
+require "db_analyze/service"
 require "db_analyze/table"
 require "db_analyze/column"
 require "db_analyze/index"

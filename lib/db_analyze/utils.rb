@@ -51,7 +51,7 @@ module DbAnalyze
       raise "BOOM"
     end
 
-    def render_name( name, form = :symbol)
+    def render_name(name, form = :symbol)
       case form
       when :symbol
         name.to_sym.inspect
@@ -61,6 +61,5 @@ module DbAnalyze
         raise "BOOM"
       end
     end
-
   end
 end

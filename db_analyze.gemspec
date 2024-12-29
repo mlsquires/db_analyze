@@ -29,10 +29,10 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "activemodel", "~> 7.0.6"
   spec.add_runtime_dependency "activesupport", "~> 7.0.6"
   spec.add_runtime_dependency "activerecord", "~> 7.0.6"
-  spec.add_runtime_dependency "dotenv", "~> 2.8.1"
+  spec.add_runtime_dependency "dotenv", "~> 3.1.0"
   spec.add_runtime_dependency "git", ">= 1.12", "< 1.14"
   spec.add_runtime_dependency "liquid", "~> 5.0.0"
-  spec.add_runtime_dependency "mls_utility", "~> 0.5.1"
+  spec.add_runtime_dependency "mls_utility", "~> 0.8.1"
   spec.add_runtime_dependency "pg", "~> 1.4.5"
 
   spec.add_development_dependency "amazing_print", "~> 1.5.0"

@@ -1,0 +1,306 @@
+[
+  {
+    "id": "33072c02-4943-4cae-91f8-009fdc44b919",
+    "arg_name": "category",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "category of images",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "68f88193-77bf-4252-be3a-3648f6ab245a",
+    "arg_name": "command_filename",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "file to write commands to",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "6e031482-5e3b-4013-9859-fc7235916e81",
+    "arg_name": "created_since",
+    "arg_type": "DateTime",
+    "default_value": null,
+    "description": "images newer than this",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "c0e62178-ff8f-4592-bbfb-59b7f8e43e79",
+    "arg_name": "debug",
+    "arg_type": "TrueClass",
+    "default_value": null,
+    "description": "debugging output",
+    "negatable": false,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "832399c0-6f81-4aa2-ae66-8faaa8f124a0",
+    "arg_name": "details",
+    "arg_type": "Array",
+    "default_value": null,
+    "description": "which commands to generate",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "847b59b8-270b-4a76-b1c9-ece91febd2d4",
+    "arg_name": "dry_run",
+    "arg_type": "TrueClass",
+    "default_value": null,
+    "description": "no database changes",
+    "negatable": true,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "a0d8e00f-9d05-49f3-8c36-3a2f28e44ada",
+    "arg_name": "extname",
+    "arg_type": "Array",
+    "default_value": null,
+    "description": "extensions to look for",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "8b19c5f9-89ae-4f03-89a4-accf9e111f60",
+    "arg_name": "input_base",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "?????",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "386e91a4-4164-4210-941b-a44b1fdbe680",
+    "arg_name": "input_filename",
+    "arg_type": "Array",
+    "default_value": null,
+    "description": "input file names",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "c85ad97c-da58-459f-9552-97c6971acd60",
+    "arg_name": "input_form",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "form of files",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "11f6e170-d252-4d7b-a3e2-7e2fc665fbb5",
+    "arg_name": "key_format",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "snake_case or human",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "821b7c8c-dbd8-4039-a748-b8db04f5f07b",
+    "arg_name": "location",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "where to find the image files",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "87d6f8d9-fa2c-47c5-aa59-3d66a5db381f",
+    "arg_name": "master_directory",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "where the master images are",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "arg_name": "discarded_directory",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "where the discarded images are",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "1c5107f8-f472-4ba4-998f-b1b4be01cedd",
+    "arg_name": "mime_types",
+    "arg_type": "Array",
+    "default_value": null,
+    "description": "process these mime types",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "1d075305-4fd9-4601-9df6-8cecd6a04be4",
+    "arg_name": "original_source_name",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "restrict to this source",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "4f36be6c-9d23-44b6-aac0-317e904d952c",
+    "arg_name": "output_directory",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "where to put the results",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "40abbb3e-dc26-473e-b0c4-da937a2c6f85",
+    "arg_name": "rate",
+    "arg_type": "Float",
+    "default_value": null,
+    "description": "what percentage of values to report",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "8a81c884-d5d8-438f-b265-9feae23906b3",
+    "arg_name": "sample_size",
+    "arg_type": "Integer",
+    "default_value": null,
+    "description": "how many image records to check for existence",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "adfa9f3f-194e-46ba-ba17-fc0122d8cb1a",
+    "arg_name": "shard_type",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "scheme for sharding - default is none",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "e6ea2b37-95b0-4fee-85e0-37d6b9f00192",
+    "arg_name": "source_created_since",
+    "arg_type": "DateTime",
+    "default_value": null,
+    "description": "source files newer than this",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "df906414-8c3b-4203-b912-e1d773e0691e",
+    "arg_name": "source_directory",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "source of images",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "531d5fd2-bac1-475a-80c5-97e8990aea97",
+    "arg_name": "source_name",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "name of the source",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "e77cefcb-ca60-4eb2-bc94-8156dd9ef216",
+    "arg_name": "source_type",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "how should the source be treated",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "2dbe8a50-1c31-4cbe-be55-37883f6911a8",
+    "arg_name": "use_latest_scan_at",
+    "arg_type": "TrueClass",
+    "default_value": null,
+    "description": "use the original_source latest_scan_at",
+    "negatable": false,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "id": "47e89381-9416-4761-9323-aa0705ccc5c9",
+    "arg_name": "verbose",
+    "arg_type": "TrueClass",
+    "default_value": null,
+    "description": "chatty output",
+    "negatable": false,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+    {
+    "arg_name": "target_directory",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "where to stage the results",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "arg_name": "start_date",
+    "arg_type": "DateTime",
+    "default_value": null,
+    "description": "images created newer than this",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "arg_name": "keyword",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "images with this keyword",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "arg_name": "report_name",
+    "arg_type": "String",
+    "default_value": null,
+    "description": "name of the report you want",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  },
+  {
+    "arg_name": "reports",
+    "arg_type": "Array",
+    "default_value": null,
+    "description": "which reports to generate",
+    "negatable": null,
+    "namespace": "db_analyze",
+    "env_prefix": "DBA"
+  }
+]

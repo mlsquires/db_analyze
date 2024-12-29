@@ -12,7 +12,7 @@ module DbAnalyze
     attribute :columns
     attribute :actual_index
     attribute :created
-    attribute :output
+    attribute :service
 
     FILTER_FIELDS = %w[name unique columns index_type].freeze
 
@@ -37,6 +37,7 @@ module DbAnalyze
       self.index_type = actual_index.type
       self.columns = actual_index.columns
     end
+
     # :table, :name, :unique, :columns, :lengths, :orders, :opclasses, :where, :type, :using, :comment
     def dump(opts = {})
       mls_msg = %(#{self.class.name}.#{__method__}: enter )

@@ -1,0 +1,5 @@
+--output_directory=output
+--debug
+--reports=create_plantuml
+--details=each_file
+--verbose

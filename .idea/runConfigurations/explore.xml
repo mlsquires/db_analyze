@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="explore" type="RubyRunConfigurationType" factoryName="Ruby" folderName="read" show_console_on_std_err="true" show_console_on_std_out="true">
+    <output_file path="$MODULE_DIR$/explore.log" is_save="true" />
+    <module name="DBA" />
+    <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="" />
+    <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+    <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+    <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+    <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+    <EXTENSION ID="BundlerRunConfigurationExtension" BUNDLE_MODE="AUTO" bundleExecEnabled="true" />
+    <EXTENSION ID="RubyCoverageRunConfigurationExtension" runner="rcov" />
+    <EXTENSION ID="org.jetbrains.plugins.ruby.rails.run.RailsRunConfigurationExtension" SCRATCH_USE_RAILS_RUNNER="false" />
+    <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/scripts/read/explore.rb" />
+    <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -14,8 +14,7 @@ module DbAnalyze
     attribute :primary_key
     attribute :actual_column
     attribute :created
-    attribute :output
-
+    attribute :service
 
     FILTER_FIELDS = %w[name type null index default created].freeze
 
@@ -64,7 +63,7 @@ module DbAnalyze
 
     # emits a hash with string keys with only the keys needed for rendering
     def filtered(filter = FILTER_FIELDS, options = {})
-      filtered = attributes.slice(*filter)
+      attributes.slice(*filter)
     end
 
     private
@@ -79,9 +78,9 @@ module DbAnalyze
       index = table.find_index_for_column(name)
       unless index.blank?
         index.each do |_key, value|
-        # puts "index: #{value.filtered}"
-        self.index = value.filtered
-        # ap self.index
+          # puts "index: #{value.filtered}"
+          self.index = value.filtered
+          # ap self.index
         end
       end
     end

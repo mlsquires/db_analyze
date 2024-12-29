@@ -12,7 +12,7 @@ module DbAnalyze
     attribute :primary_key
     attribute :actual_foreign_key
     attribute :created
-    attribute :output
+    attribute :service
 
     def initialize(args = {}, &block)
       super(args)
@@ -40,16 +40,15 @@ module DbAnalyze
     end
 
     # def self.create(from_table:, to_table:, foreign_key_name: nil, column:, primary_key: , on_delete: nil, on_update: nil, deferable: nil, validate: nil, output:)
-    def self.create(from_table:, to_table:, output:)
+    def self.create(from_table:, to_table:, service:)
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       fk_name = "FOREIGN_KEY"
-      actual_foreign_key = create_actual_foreign_key(from_table: from_table, to_table: to_table, foreign_key_name: fk_name, output: output)
-      fk = new(table: from_table, actual_foreign_key: actual_foreign_key, output: output)
-
+      actual_foreign_key = create_actual_foreign_key(from_table: from_table, to_table: to_table, foreign_key_name: fk_name, service: service)
+      fk = new(table: from_table, actual_foreign_key: actual_foreign_key, service: service)
     end
 
-    def self.create_actual_foreign_key(from_table:, to_table:, foreign_key_name:, output:)
+    def self.create_actual_foreign_key(from_table:, to_table:, foreign_key_name:, service:)
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       from_table_name = from_table.name
@@ -71,7 +70,7 @@ module DbAnalyze
     def dump(opts = {})
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
-      output.puts %(\t#{name}, from_table: #{table.name.inspect}, to_table: #{to_table.name.inspect}, column: #{column.inspect}, primary_key: #{primary_key.inspect}, created: #{created.inspect})
+      puts %(\t#{name}, from_table: #{table.name.inspect}, to_table: #{to_table.name.inspect}, column: #{column.inspect}, primary_key: #{primary_key.inspect}, created: #{created.inspect})
     end
 
     def self.connection
@@ -79,7 +78,7 @@ module DbAnalyze
     end
 
     def to_h
-      attributes
+      attributes.with_indifferent_access
     end
 
     # emits a hash with string keys with all keys
@@ -92,6 +91,10 @@ module DbAnalyze
       filtered = attributes.dup
       filtered[:to_table] = to_table.name
       filtered[:from_table] = table.name
+    end
+
+    def render(opts = {})
+      # dump(opts)
     end
   end
 end

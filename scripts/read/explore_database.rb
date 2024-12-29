@@ -24,9 +24,8 @@ module Runner
   output = $stdout
   opts = {
     write_tables: "./output/tables",
-    write_klasses: "./output/klasses",
+    write_klasses: "./output/klasses"
   }
-  database = DbAnalyze::Database.new(output: output, opts: opts)
+  database = DbAnalyze::Database.new(service: service, opts: opts)
   database.render
-
 end

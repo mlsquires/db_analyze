@@ -23,6 +23,5 @@ module DbAnalyze
     def self.foreign_keys
       @@foreign_keys ||= {}
     end
-
   end
 end

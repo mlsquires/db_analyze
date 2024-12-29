@@ -15,8 +15,9 @@ module DbAnalyze
     attribute :primary_key
     attribute :table
     attribute :table_name
-    attribute :output
-    attribute :opts
+    attribute :service
+    attribute :details
+    attribute :reports
 
     FILTER_FIELDS = %w[name created primary_key].freeze
     INTERESTING_FIELDS = {
@@ -53,7 +54,7 @@ module DbAnalyze
         raise "BOOM"
       end
 
-      self.opts = opts.nil? ? {} : opts
+      # self.opts = opts.nil? ? {} : opts
       refresh_klass
     end
 
@@ -68,24 +69,27 @@ module DbAnalyze
       DbAnalyze.logger.debug mls_msg
       template = Templates.load_template(:create_klass)
       args = {
-        "name" => self.name,
-        "superclass" => self.superclass,
-        "reflections" => reflection_objects,
+        "name" => name,
+        "superclass" => superclass,
+        "reflections" => reflection_objects
       }
-      if opts[:write_klasses]
-        file = create_file
+      output_directory = service.config.fetch_directory_for_group(:klasses)
+      FileUtils.mkdir_p(output_directory)
+
+      if service.details.include?("each_file")
+        file = create_file(output_directory)
         file.puts template.render(args)
         file.close
       else
-        output.puts template.render(args)
+        service.default_output.puts template.render(args)
       end
-
     end
 
-    def create_file
-      filename = %(#{opts[:write_klasses]}/create_klass_#{name}.rb)
-      puts %(Writing file: #{filename})
-      file = File.open(filename, "w")
+    def create_file(output_directory)
+      basename = Pathname.new(%(create_class_#{name}.rb))
+      full_pathname = output_directory + basename
+      puts %(Writing file: #{basename})
+      file = File.open(full_pathname.to_s, "w")
     end
 
     def dump(opts = {})
@@ -93,12 +97,9 @@ module DbAnalyze
     end
 
     def raw_dump
-
       INTERESTING_FIELDS.each do |key, try|
         output.puts %(#{key}: #{actual_klass.send(key).inspect}) if try
       end
-
-
     end
 
     def dump_reflections
@@ -109,7 +110,7 @@ module DbAnalyze
 
     def reflection_objects
       reflections.map do |key, value|
-        { "macro" => value.macro, "name" => value.name }
+        {"macro" => value.macro, "name" => value.name}
       end
     end
 
@@ -137,7 +138,6 @@ module DbAnalyze
       filtered["table_name"] = table.name
     end
 
-
     def refresh_klass
       capture_klass
       update_mappings
@@ -164,7 +164,7 @@ module DbAnalyze
         self.actual_klass = create_ar_model(table_name)
         self.created = true
       end
-      self.actual_klass.table_name = table_name
+      actual_klass.table_name = table_name
       self.table_name = table.name
       self.primary_key = table.primary_key
       self.superclass = actual_klass.superclass.name

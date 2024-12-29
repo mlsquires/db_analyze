@@ -4,12 +4,12 @@ require "liquid"
 
 module DbAnalyze
   module Templates
-
     Liquid::Template.error_mode = :strict
 
     @@available_templates = {
       create_table: "create_table.liquid",
       create_klass: "create_klass.liquid",
+      create_plantuml: "create_plantuml.liquid"
     }
 
     @@templates = {}
@@ -23,7 +23,7 @@ module DbAnalyze
     end
 
     def self.load_template(name)
-      @@templates[name] ||= self.load_template_file(name)
+      @@templates[name] ||= load_template_file(name)
     end
 
     def self.load_template_file(name)
@@ -31,6 +31,5 @@ module DbAnalyze
       raw = File.read(template_file)
       Liquid::Template.parse(raw, error_mode: :strict)
     end
-
   end
 end
