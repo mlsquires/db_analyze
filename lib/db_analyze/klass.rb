@@ -44,9 +44,9 @@ module DbAnalyze
     # INDEX_FIELDS = %i[table name unique columns].freeze
     # FOREIGN_KEY_FIELDS = %i[from_table to_table column primary_key on_delete on_update].freeze
 
-    def initialize(args = {}, &block)
+    def initialize(args = {})
       super(args)
-      if block
+      if block_given?
         yield self
       end
 
@@ -68,10 +68,15 @@ module DbAnalyze
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       template = Templates.load_template(:create_klass)
+      standard_table_name = name.pluralize.underscore
       args = {
         "name" => name,
+        "table_name" => table_name,
+        "standard_table_name" => standard_table_name,
+        "primary_key" => table.primary_key,
         "superclass" => superclass,
-        "reflections" => reflection_objects
+        "reflections" => reflection_objects,
+        "each_file"          => service.details.include?("each_file")
       }
       output_directory = service.config.fetch_directory_for_group(:klasses)
       FileUtils.mkdir_p(output_directory)
@@ -86,7 +91,7 @@ module DbAnalyze
     end
 
     def create_file(output_directory)
-      basename = Pathname.new(%(create_class_#{name}.rb))
+      basename = Pathname.new(%(#{name.underscore}.rb))
       full_pathname = output_directory + basename
       puts %(Writing file: #{basename})
       file = File.open(full_pathname.to_s, "w")

@@ -52,7 +52,8 @@ class Runner < MlsUtility::BaseRunner
     ok = common_validations
     return false unless ok
 
-    @output_directory = MlsUtility::ScriptHelpers.validate_directory(@project_root, @option_manager.current_options[:output_directory], "file", "write")
+    @output_directory = MlsUtility::ScriptHelpers.validate_directory(@project_root, @option_manager
+                                                                                      .current_options[:output_directory], "file", "write", true)
     if @output_directory.nil?
       msg = %(#{self.class.name}.#{__method__}: @output_directory: #{@output_direcotory.inspect} is not valid)
       @logger.error msg
@@ -110,7 +111,7 @@ class Runner < MlsUtility::BaseRunner
   # </editor-fold>
 end
 
-logger = MlsUtility::ScriptHelpers.setup_logging(:debug, true)
+logger = MlsUtility::ScriptHelpers.setup_logging(:info, true)
 MlsUtility.logger = logger
 MlsUtility.labeled_dump_detail = true
 MlsUtility.labeled_dump_enable = true

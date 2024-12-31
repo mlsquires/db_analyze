@@ -1,9 +1,35 @@
+{% unless each_file -%}
+    {{ "----" }}
+{% endunless -%}
 # frozen_string_literal: true
 
 class {{ name -}}
 {% if superclass -%}
     {{ " < " }}{{ superclass }}
 {% endif -%}
+{%  unless table_name == standard_table_name -%}
+    self.table_name = '{{ table_name }}'
+{% endunless -%}
+{% if primary_key -%}
+{% unless primary_key == "id"  -%}
+    self.primary_key = '{{ primary_key }}'
+{% endunless -%}
+{% endif -%}
+{% for column in columns -%}
+    attr_accessor :{{ column.name }}
+{% endfor -%}
+
+{% for reflection in reflections -%}
+    {{ reflection["macro"] }} :{{ reflection.name }}
+{% endfor -%}
+
+{% for column in columns -%}
+    {{ column["macro"] }} :{{ column.name }}
+{% endfor -%}
+
+{% for index in indexes -%}
+    add_index :{{ index.table }}, :{{ index.column }}
+{% endfor -%}
 {% for reflection in reflections -%}
     {{ reflection["macro"] }} :{{ reflection.name }}
 {% endfor -%}

@@ -43,8 +43,8 @@ module DbAnalyze
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       actual_indexes = connection.indexes(name)
-      self.indexes = {}
-      actual_indexes.each do |actual_index|
+      self.indexes   = {}
+      actual_indexes.each do | actual_index |
         indexes[actual_index.name] = Index.new(table: self, actual_index: actual_index, service: service)
       end
     end
@@ -53,12 +53,12 @@ module DbAnalyze
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       actual_columns = connection.columns(name)
-      self.columns = {}
-      actual_columns.each do |actual_column|
-        attr = {
-          table: self,
+      self.columns   = {}
+      actual_columns.each do | actual_column |
+        attr                        = {
+          table:         self,
           actual_column: actual_column,
-          service: service
+          service:       service
         }
         if actual_column.name == primary_key
           attr[:primary_key] = true
@@ -72,9 +72,9 @@ module DbAnalyze
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       actual_foreign_keys = connection.foreign_keys(name)
-      actual_foreign_keys.each do |actual_foreign_key|
+      actual_foreign_keys.each do | actual_foreign_key |
         # foreign_keys[actual_foreign_key.name] = ForeignKey.new(table: self, actual_foreign_key: actual_foreign_key, service: service)
-        foreign_key = ForeignKey.new(table: self, actual_foreign_key: actual_foreign_key, service: service)
+        foreign_key                             = ForeignKey.new(table: self, actual_foreign_key: actual_foreign_key, service: service)
         Mappings.foreign_keys[foreign_key.name] = foreign_key
       end
     end
@@ -87,16 +87,27 @@ module DbAnalyze
     end
 
     def render_table(service)
-      mls_msg = %(#{self.class.name}.#{__method__}: enter )
-      DbAnalyze.logger.debug mls_msg
+      msg = %(#{self.class.name}.#{__method__}: name: #{name.inspect})
+      DbAnalyze.logger.debug msg
       template = Templates.load_template(:create_table)
-      args = {
-        "klass" => klass.name.pluralize,
-        "name" => name,
-        "primary_key_column" => columns[primary_key].filtered,
-        "columns" => columns.reject { |key, _value| key == primary_key }.map { |_key, value| value.filtered },
-        "indexes" => indexes.map { |_key, value| value.filtered }
+      if primary_key.nil?
+        primary_key_column = nil
+      else
+        if primary_key.is_a?(Array)
+          puts "primary_key is an array"
+        else
+          primary_key_column = columns[primary_key].filtered
+        end
+      end
+      args     = {
+        "klass"              => klass.name.pluralize,
+        "name"               => name,
+        "primary_key_column" => primary_key_column,
+        "columns"            => columns.reject { | key, _value | key == primary_key }.map { | _key, value | value.filtered },
+        "indexes"            => indexes.map { | _key, value | value.filtered },
+        "each_file"          => service.details.include?("each_file")
       }
+      MlsUtility::Misc.labeled_dump("args", args)
 
       if service.details.include?("each_file")
         output_directory = service.config.fetch_directory_for_group(:tables)
@@ -116,12 +127,12 @@ module DbAnalyze
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
       template = Templates.load_template(:create_plantuml)
-      args = {
-        "klass" => klass.name.pluralize,
-        "name" => name,
+      args     = {
+        "klass"              => klass.name,
+        "name"               => klass.name.singularize.underscore,
         "primary_key_column" => columns[primary_key].filtered,
-        "columns" => columns.reject { |key, _value| key == primary_key }.map { |_key, value| value.filtered },
-        "indexes" => indexes.map { |_key, value| value.filtered }
+        "columns"            => columns.reject { | key, _value | key == primary_key }.map { | _key, value | value.filtered },
+        "indexes"            => indexes.map { | _key, value | value.filtered }
       }
 
       if service.details.include?("each_file")
@@ -139,14 +150,14 @@ module DbAnalyze
     end
 
     def create_table_file(output_directory)
-      basename = Pathname.new(%(#{name}.rb))
+      basename      = Pathname.new(%(#{name}.rb))
       full_pathname = output_directory + basename
       puts %(Writing file: #{basename})
       file = File.open(full_pathname.to_s, "w")
     end
 
     def create_plantuml_file(output_directory)
-      basename = Pathname.new(%(#{name}.iuml))
+      basename      = Pathname.new(%(#{klass.name.singularize.underscore}.iuml))
       full_pathname = output_directory + basename
       puts %(Writing file: #{basename})
       file = File.open(full_pathname.to_s, "w")
@@ -155,8 +166,8 @@ module DbAnalyze
     def find_index_for_column(column_name)
       mls_msg = %(#{self.class.name}.#{__method__}( #{column_name.inspect} ))
       DbAnalyze.logger.debug mls_msg
-      candidates = indexes.select { |_key, index| index.columns.include?(column_name) }
-      mls_msg = %(#{self.class.name}.#{__method__}: return #{candidates.length}  )
+      candidates = indexes.select { | _key, index | index.columns.include?(column_name) }
+      mls_msg    = %(#{self.class.name}.#{__method__}: return #{candidates.length}  )
       DbAnalyze.logger.debug mls_msg
       candidates
     end
@@ -173,7 +184,7 @@ module DbAnalyze
     def dump_columns
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
-      columns.each do |_column_name, column|
+      columns.each do | _column_name, column |
         column.dump(service)
       end
     end
@@ -181,7 +192,7 @@ module DbAnalyze
     def dump_indexes
       mls_msg = %(#{self.class.name}.#{__method__}: enter )
       DbAnalyze.logger.debug mls_msg
-      indexes.each do |_index_name, index|
+      indexes.each do | _index_name, index |
         index.dump(opts)
       end
     end
@@ -205,7 +216,7 @@ module DbAnalyze
       filtered = attributes.slice(*filter)
     end
 
-    private
+  private
 
     def capture_actual
       capture_primary_key

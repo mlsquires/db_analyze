@@ -1,4 +1,4 @@
-class {{ klass }} {
+entity {{ klass }} {
         {% for column in columns -%}
         {{ column.name }}:{{ column.type }}
         {% endfor -%}

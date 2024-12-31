@@ -1,5 +1,5 @@
---output_directory=output
---debug
---reports=create_plantuml
+--output_directory=output/synofoto
+#--debug
+--reports=create_klass,create_table
 --details=each_file
 --verbose
